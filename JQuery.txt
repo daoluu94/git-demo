@@ -1,4 +1,5 @@
-﻿hàm lấy chiều rộng và cao của ảnh jq:
+﻿--------------------------Jquery cơ bản---------------------------
+hàm lấy chiều rộng và cao của ảnh jq:
 $(document).ready(function(){
 	$('#div1').html("width:" + $('#images1').width() + ".Height:" + $('$images1').height());
 });
