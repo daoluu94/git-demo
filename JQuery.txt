@@ -1,0 +1,284 @@
+﻿hàm lấy chiều rộng và cao của ảnh jq:
+$(document).ready(function(){
+	$('#div1').html("width:" + $('#images1').width() + ".Height:" + $('$images1').height());
+});
+</head>
+<body>
+	<div id="div1"></div>
+	<img id="images1" src="haha.jpg">
+</body>//cái div1 lấy gái trị của HTML gán vào cho nó để hiện ra ngay vị trí div1 đó. Nếu ảnh quá lớn thì
+nó sẽ ko ohiện ra kích cỡ của ành kịp vì khi ảnh chưa load xong nó cũng đã chạy
+-----------------------------
+cách khác nhé: window.load
+$(window).load(function(){
+	$('#div1').html("width:" + $('#images1').width() + ".Height:" + $('$images1').height());
+});// lúc nào cũng lấy đc kích cỡ hình vì  nó luôn đợi win load xong mới thực hiện hàm.
+
+-------------------------------------------------------------
+
+cách kiểm tra jquery có chạy ko:
+Window.JQuery || document.write('<script src="script\/jquery-2.2.1.min.js."><\/script>');
+//nếu browser ko load được JQuery thì sẽ dùng lệnh kế bên để nhúng cách này để khắc phục CDN nếu bị lỗi
+
+--------------------------------------------------------------
+
+dùng css trog jquery:
+$('#button1').css('background-color','yellow');
+// tự động khi trang web load xong nó sẽ gáng thuộc tính css cho #boutton1
+
+---->>> có thể gán var cho property của jquery vd: var btn = $('#button1');
+
+-------------------------------------------------------------
+
+https://www.youtube.com/watch?v=ZBrwNIZU-Ck&list=PLRhlTlpDUWsyAGY7FDGSndEhOD3F2Ruhm&index=5
+lấy nội dung của html gán cho 1 tag name hoặc lấy .lenght lấy số lần xuất hiện, text của tag đó....
+
+-------------------------------------------------------------
+
+dang multi class: lấy ra phần tử nào có 2 cái class gán cho nó vd
+<div class="small test">
+	<p>This is selector 2</p>
+</div>
+<script>
+	$('.small.test').css('border', '1px solid red');
+</script>
+
+dạng thứ 2 là dạng đọc class cây:
+
+<div class="small">
+	<p class="test">This is selector 2</p>
+</div>
+
+<script>
+	$('.small .test').css('border', '1px solid red');
+</script>// có khoảng cách giữa 2 em small và test.
+
+--->>>filter dùng để filter ra phần tử nào đó 1 cách chính xác nếu đúng theo tên như v thì ok, 
+ví dụ như big small thì phải là class đúng 2 ten dúng ngang hàng nhau
+
+vd filter những class tên big mà kèm theo class small
+câu query sẽ là: $('.big').filter('.small').css('border','1px solid yellow');
+sau khi filter ra kết quả thì sẽ gán css cho div có lass big small.
+<div class="big small">
+	<p>haha</p>
+</div>
+
+--->>>find dùng để tìm những cái phần tử mà có class "con" small nằm trong class big
+
+-------->>>Nếu ko muốn tìm kiếm dạng filter thì nếu cần lấy cái class đầu tiên thì ta viết $('.big:first').css(...);// cuối thì thay bằng last
+
+---------------------------------------------------
+
+
+query theo attribute: thuộc tính
+
+vd:
+<script>
+	<!-- Cách định nghĩa tất cả attr--!>
+	$(document).ready(function(){
+	$('[title]').addClass('border1');//class này phải định nghĩa trc nhé.
+	<!-- Cách khác multi attr--!>
+	// có thể lấy attr theo tên attr và có thể dùng multi để xác định nhé, hoặc lồng query nhé
+	$('[title="div1"][style="background-color:yellow"],[title="div3"]').addClass('border1');
+	<!-- Cách khác class and attr--!>
+	$('demo2[title="div3"]').addClass('border1');
+})
+</script>
+<div class="demo1" title="div1" style="background-color:yellow">
+	<span title="abc"> this is first </span>
+</div>
+<div class="demo2" title="div3">
+	<span> this is third </span>
+</div>
+
+----------------------------------------------------
+
+Toán tử so sánh:
+Mấy cái đơn giản trc nha: [name="value"], [name!="value"], [name*="value"]// * là toán tử so sánh chứa
+-->>$('span[title*="iv"]') sẽ chay ra những attr có chứa chuỗi iv
+[name~="value"] ss chứa từ value trc theo sau là dấu cách
+[name|="value"] ss tiền tố bỡi nó theo sau là dấu -
+[name^="value"] ss bắt đầu bởi nó// vd tim title bắt đầu bởi chuỗi ab
+-->>$('span[title$="ab"]')
+[name$="value"]	ss kết thúc bởi nó// vd tìm div có title kết thúc tên =3
+-->>$('div[title$="3"]')
+----------------------------------------------------
+
+query get, set:
+
+---->>>set attr:
+<a href="#" id="link1">Link1</a>
+<br />
+<button id="btn1">click me</button>
+
+<script>
+	$('#btn').click(function(){
+	$('#link1').attr('href','http://youtube.com');
+// sau khi gan xong có thể lấy giá trị thuộc tính ra: 
+alert($('#link1').attr('href'));// thì sau khi click nó sẽ hiện lên alert có đường link đó
+})
+</script>
+--->>> chùng ta có thể add class bằng cách set như s (class tên style): $('#link1').addClass('style');
+cách set class khác là dùng $('#link1').attr('class','style1');
+|| add đoạn text cho div với id="str" như s: $('#str').text('hay cười vl!!');// sau đó có thể get ra bằng alert để xem
+
+------------------------------
+phân biệt attr và prop:
+
+<input type="checkbox" id="ck1" value="123" checked="checked" />
+<br />
+<div id="div1">
+	<span id="spanProp"></span><br />
+	<span id="spanAttr"></span>
+</div>
+<div id="div2">
+	<span id="text">hài quá đi</span><br />
+</div>
+<br/>
+	<button id="btn1">click me</button>
+<script>
+	$('#btn').click(function(){
+		$('#spanProp').text($('#ck1').prop('checked'));
+		$('#spanAttr').text($('#ck1').attr('checked'));
+	})
+</script>
+--->>Kqua trả về là: với prop: true còn với Attr: checked
+
+------->>>> Trong bài này chú ý thêm các phương thức: val() lấy ra giá trị, đa phần lấy trên các trường input
+vd: alert ($('#ck1').val()); // theo vd trên thì kq ra là 123
+
+html() lấy giá trị của html
+alert($('#div').html());//kq trả về là nguyên gtri cùa html như đây: <span id="text">hài quá đi</span><br />
+
+text() chỉ lấy gtri text ra thôi
+alert($('#div').text());//kq trả về là hài quá đi
+
+.removeAttr('checked'); sẽ xóa đi thuộc trạng thái checked hiện tại
+
+.prop('checked',false) thì cũng sẽ làm mất đi gt tree band đầu
+
+--------------------------------------------------------------
+
+Prepend và Append trong jQuery
+<span id="spanmore">Course</span>
+<div>Jquery</div>
+<div>C#</div>
+<div>PHP</div>
+
+---->>>prepend thêm vào trước text của đối tượng cần prepend (đầu div)
+$('div').prepend('<b>Programing</b>');//kq là ProgramingJquery, ProgramingC#, ProgramingPHP
+$(<b>Programing</b>).prependTo('div');//kq như trên chỉ là khác cách code thôi nhé
+$('#spanmore').prepend('<b>Programing</b>');//kq chỉ thêm chuỗi đó vào trước course thôi
+
+
+---->>>append thêm vào sau text của đối tượng cần append (cuối div)
+$('div').append('<b>Tutorial</b>');//kq là ProgramingJqueryTutorial, ProgramingC#Tutorial,...
+$('div').append($('#spanmore'));//kq ProgramingJqueryTutorialCourse,....
+
+
+---->>>dùng lệnh insertAfter(after), insertBefore(before) để thêm vào trc hoặc sau
+$('<h3>Start</h3>').insertAfter('div');//kq trả ra sẽ thêm chữ start như s:
+Jquery
+Start
+C#
+Start
+....
+
+>>Cách khác: $('div').after('<h3>Start</h3>');//kq vẫn như v
+
+----->>>Before cách viết cũng y như vậy nhé
+
+--------------------------------------------------------------------
+
+---->>>hasClass trả về True nếu 1 phần tử chứa class đó đc chỉ ra ngc lại trả về false
+
+---->>>addClass thêm mới 1 hoặc nhiều class vào phần tử, để add nhiều class phải cách nhau bằng dấu ,
+
+---->>>removeClass xóa 1 hay nhiều class trong 1 selector. Đề xóa all class trong phần tử thì ko chỉ ra tên
+
+---->>>toogleClass Nếu phần tử chứa class chỉ định sẽ remove còn ngược lại sẽ add
+<style>
+	.color{
+	color: red;
+	}
+</style>
+
+$('btn1').on('click', function(){
+	$('h1').addClass('color');
+})
+//kq dòng chữ trong h1 sẽ chuyển sang màu đỏ
+//các hàng khác cũng làm tương tự như vậy
+
+$('btn1').on('click', function(){
+	$('h1').hasClass('color');
+})
+//kq xuất ra kết quả là true vì sau khi click vào btn1 thì class color đã đc gán cho h1
+
+-----------------------------------------------------------------------
+
+---->>>hàm map cũng như each nhưng cách viếc ngắn hơn,  map retuen về mãn còn each thì như vòng lập và mình phải tự xử lý nó
+
+vd:
+<script>
+	$(document).ready(function(){
+	 alert($('li').map(function(index, element){
+		return $(element).text();
+		}).get());
+	});
+</script>
+
+//index là vị trí, element là phần tử hay value.
+//kq tra về sẽ xuất ra 1 cái alert vs những pt trong li ko cần dùng thêm push
+
+----------------------------
+
+--->>>dùng hàm each
+<script>
+	$(document).ready(function(){
+	 var result=[];
+	   $('li').each(function(index, element){
+		result.push($(element).text());
+		});
+	   alert(result);
+	});
+</script>
+//kq trả về cũng như map tuy nhiên phải định nghĩa kết quả trả về là mảng cho nó
+
+--->>>map cũng có thể xuất ra dạng chuỗi và phân cách nhau bằng dấu cách, ta có thể dùng
+hàm điều kiện if cho nó 1 tốc dộ xử lý nhanh hơn each nhiều
+
+<script>
+	$(document).ready(function(){
+	 alert($('li').map(function(index, element){
+	     if($(element).text()!='PHP')// nếu phần tử khác chuỗi PHP thì alert ra hết
+		return $(element).text();
+		}).get().join('|'));
+	});
+</script>
+
+<ul>
+<li>C#</li>
+<li>php</li>
+<li>python</li>
+<li>java</li>
+</ul>
+
+-----------------------------------------------------------
+
+---->>>Sự kiện change và mouse-event
+https://www.youtube.com/watch?v=Zlg79vbfcWk&list=PLRhlTlpDUWsyAGY7FDGSndEhOD3F2Ruhm&index=19
+
+coi code tại:
+
+https://github.com/teduinternational/jquery-demo/tree/master/JqueryDemo
+
+
+github------
+--->>>hướng dẫn dùng github
+
+file:///C:/Program%20Files/Git/ReleaseNotes.html
+
+
+
+
+
